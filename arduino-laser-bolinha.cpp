@@ -10,17 +10,22 @@ void setup() {
 
 void loop() {
   ldrValue = analogRead(ldrPin); // Lê o valor do LDR.
-  if (ldrValue < ligado && a == 0) {
-//    t0 = t;
-    a++; // Passa pro estágio 1, que é o objeto atravessando o laser.
-    Serial.println("Comecou!");
-  }
-  if (a == 1 && ldrValue > ligado) {
-    a++; // Quando o objeto ultrapassar completamente o laser - ativando o tal novamente -, passa pro estágio 2, que é esperar a próxima interrupção.
-  }
-  if (ldrValue < ligado && a == 2) {
-    a++; // A interrupção do laser ocorre, iniciando o estágio 3 (final), que é printar o resultado.
-    Serial.println(t);
+  if (ldrValue > ligado) {
+    if (a == 1) {
+      a++; // Quando o objeto ultrapassar completamente o laser - ativando o tal novamente -, passa pro estágio 2, que é esperar a próxima interrupção.
+    } else if (a == 3) {
+      a = 0; // Volta pro estágio 0
+      t = 0;
+      delay(1000);
+    }
+  } else if {
+    if (a == 0) {
+      a++; // Passa pro estágio 1, que é o objeto atravessando o laser.
+      Serial.println("Comecou!");
+    } else if (a == 2) {
+      a++; // A interrupção do laser ocorre, iniciando o estágio 3 (final), que é printar o resultado.
+      Serial.println(t);
+    }
   }
   if (a > 0) {
     t++; // Se o estágio for maior que 0, inicia a contagem.
